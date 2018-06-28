@@ -39,21 +39,6 @@
 
     });
 
-    $('#ContrairBracoDireitoRepouso').on('click', function () {
-
-        console.log("ContrairBracoDireitoRepouso");
-
-        $.post(ContrairBracoDireitoRepousoUrl, { }, function (data) {
-            if (data.success) {
-                $('#situacaoAtualBracoDireitoContracao').html(data.robo.bracoDireito.Cotovelo);
-                console.log("oi");
-            }
-            else {
-                console.log("errado");
-            }
-        });
-
-    });
 
     $('#ContrairBracoDireito').on('click', function () {
 
@@ -87,21 +72,6 @@
 
     });
 
-    $('#RotacaoBracoDireitoRepouso').on('click', function () {
-
-        console.log("RotacaoBracoDireitoRepouso");
-
-        $.post(RotacaoBracoDireitoRepousoUrl, { }, function (data) {
-            if (data.success) {
-                $('#situacaoAtualBracoDireitoRotacao').html(data.robo.bracoDireito.Pulso);
-                console.log("oi");
-            }
-            else {
-                console.log("errado");
-            }
-        });
-
-    });
 
     $('#RotacaoBracoDireito').on('click', function () {
 
@@ -135,22 +105,6 @@
 
     });
 
-    $('#ContrairBracoEsquerdoRepouso').on('click', function () {
-
-        console.log("ContrairBracoEsquerdoRepouso");
-
-        $.post(ContrairBracoEsquerdoRepousoUrl, { }, function (data) {
-            if (data.success) {
-                $('#situacaoAtualBracoEsquerdoContracao').html(data.robo.bracoEsquerdo.Cotovelo);
-                console.log("oi");
-            }
-            else {
-                console.log("errado");
-            }
-        });
-
-    });
-
     $('#ContrairBracoEsquerdo').on('click', function () {
 
         console.log("ContrairBracoEsquerdo");
@@ -159,7 +113,7 @@
         
         $.post(ContrairBracoEsquerdoUrl, { }, function (data) {
             if (data.success) {
-                $('#situacaoAtualBracoEsquerdoContracao').html(data.robo.bracoDireito.Cotovelo);
+                $('#situacaoAtualBracoEsquerdoContracao').html(data.robo.bracoEsquerdo.Cotovelo);
                 console.log("oi");
             }
             else {
@@ -185,21 +139,6 @@
 
     });
 
-    $('#RotacaoBracoEsquerdoRepouso').on('click', function () {
-
-        console.log("RotacaoBracoEsquerdoRepouso");
-
-        $.post(RotacaoBracoEsquerdoRepousoUrl, { }, function (data) {
-            if (data.success) {
-                $('#situacaoAtualBracoEsquerdoRotacao').html(data.robo.bracoEsquerdo.Pulso);
-                console.log("oi");
-            }
-            else {
-                console.log("errado");
-            }
-        });
-
-    });
 
     $('#RotacaoBracoEsquerdo').on('click', function () {
 
@@ -207,7 +146,7 @@
 
         $.post(RotacaoBracoEsquerdoUrl, { }, function (data) {
             if (data.success) {
-                $('#situacaoAtualBracoEsquerdoRotacao').html(data.robo.bracoDireito.Pulso);
+                $('#situacaoAtualBracoEsquerdoRotacao').html(data.robo.bracoEsquerdo.Pulso);
                 console.log("oi");
             }
             else {
@@ -233,21 +172,6 @@
 
     });
 
-    $('#RotacaoCabecaRepouso').on('click', function () {
-
-        console.log("RotacaoCabecaRepouso");
-
-        $.post(RotacaoCabecaRepousoUrl, { }, function (data) {
-            if (data.success) {
-                $('#situacaoAtualCabecaRotacao').html(data.robo.cabeca.Rotacao);
-                console.log("oi");
-            }
-            else {
-                console.log("errado");
-            }
-        });
-
-    });
 
     $('#RotacaoCabeca').on('click', function () {
 
@@ -281,21 +205,6 @@
 
     });
 
-    $('#InclinacaoCabecaRepouso').on('click', function () {
-
-        console.log("InclinacaoCabecaRepouso");
-
-        $.post(InclinacaoCabecaRepousoUrl, { }, function (data) {
-            if (data.success) {
-                $('#situacaoAtualCabecaInclinacao').html(data.robo.cabeca.Inclinacao);
-                console.log("oi");
-            }
-            else {
-                console.log("errado");
-            }
-        });
-
-    });
 
     $('#InclinacaoCabecaCima').on('click', function () {
 

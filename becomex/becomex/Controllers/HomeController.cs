@@ -166,21 +166,6 @@ namespace becomex.Controllers
             }
         }
 
-        public JsonResult ContrairBracoDireitoRepouso(){
-            try{
-                var movimento = ComunicarRoboPost(new Uri("http://localhost:15300/robo/ContrairBracoDireitoRepouso"));
-
-                if (movimento != null){
-                    return Json(new { success = true, robo = movimento }, JsonRequestBehavior.AllowGet);
-                }
-                else{
-                    return Json(new { success = false }, JsonRequestBehavior.AllowGet);
-                }
-            }
-            catch (Exception ex){
-                return Json(new { success = false, message = ex.Message }, JsonRequestBehavior.AllowGet);
-            }
-        }
 
         public JsonResult ContrairBracoDireito()
         {
@@ -226,28 +211,6 @@ namespace becomex.Controllers
 
 
 
-
-        public JsonResult RotacaoBracoDireitoRepouso()
-        {
-            try
-            {
-                var movimento = ComunicarRoboPost(new Uri("http://localhost:15300/robo/RotacaoBracoDireitoRepouso"));
-
-                if (movimento != null)
-                {
-                    return Json(new { success = true, robo = movimento }, JsonRequestBehavior.AllowGet);
-                }
-                else
-                {
-                    return Json(new { success = false }, JsonRequestBehavior.AllowGet);
-                }
-            }
-            catch (Exception ex)
-            {
-                return Json(new { success = false, message = ex.Message }, JsonRequestBehavior.AllowGet);
-            }
-        }
-
         public JsonResult RotacaoBracoDireito()
         {
             try
@@ -274,27 +237,6 @@ namespace becomex.Controllers
             try
             {
                 var movimento = ComunicarRoboPost(new Uri("http://localhost:15300/robo/RotacaoBracoDireitoAtni"));
-
-                if (movimento != null)
-                {
-                    return Json(new { success = true, robo = movimento }, JsonRequestBehavior.AllowGet);
-                }
-                else
-                {
-                    return Json(new { success = false }, JsonRequestBehavior.AllowGet);
-                }
-            }
-            catch (Exception ex)
-            {
-                return Json(new { success = false, message = ex.Message }, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        public JsonResult ContrairBracoEsquerdoRepouso()
-        {
-            try
-            {
-                var movimento = ComunicarRoboPost(new Uri("http://localhost:15300/robo/ContrairBracoEsquerdoRepouso"));
 
                 if (movimento != null)
                 {
@@ -353,27 +295,6 @@ namespace becomex.Controllers
             }
         }
 
-        public JsonResult RotacaoBracoEsquerdoRepouso()
-        {
-            try
-            {
-                var movimento = ComunicarRoboPost(new Uri("http://localhost:15300/robo/RotacaoBracoEsquerdoRepouso"));
-
-                if (movimento != null)
-                {
-                    return Json(new { success = true, robo = movimento }, JsonRequestBehavior.AllowGet);
-                }
-                else
-                {
-                    return Json(new { success = false }, JsonRequestBehavior.AllowGet);
-                }
-            }
-            catch (Exception ex)
-            {
-                return Json(new { success = false, message = ex.Message }, JsonRequestBehavior.AllowGet);
-            }
-        }
-
         public JsonResult RotacaoBracoEsquerdo()
         {
             try
@@ -416,27 +337,6 @@ namespace becomex.Controllers
             }
         }
 
-        public JsonResult RotacaoCabecaRepouso()
-        {
-            try
-            {
-                var movimento = ComunicarRoboPost(new Uri("http://localhost:15300/robo/RotacaoCabecaRepouso"));
-
-                if (movimento != null)
-                {
-                    return Json(new { success = true, robo = movimento }, JsonRequestBehavior.AllowGet);
-                }
-                else
-                {
-                    return Json(new { success = false }, JsonRequestBehavior.AllowGet);
-                }
-            }
-            catch (Exception ex)
-            {
-                return Json(new { success = false, message = ex.Message }, JsonRequestBehavior.AllowGet);
-            }
-        }
-
         public JsonResult RotacaoCabeca()
         {
             try
@@ -463,27 +363,6 @@ namespace becomex.Controllers
             try
             {
                 var movimento = ComunicarRoboPost(new Uri("http://localhost:15300/robo/RotacaoCabecaAtni"));
-
-                if (movimento != null)
-                {
-                    return Json(new { success = true, robo = movimento }, JsonRequestBehavior.AllowGet);
-                }
-                else
-                {
-                    return Json(new { success = false }, JsonRequestBehavior.AllowGet);
-                }
-            }
-            catch (Exception ex)
-            {
-                return Json(new { success = false, message = ex.Message }, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        public JsonResult InclinacaoCabecaRepouso()
-        {
-            try
-            {
-                var movimento = ComunicarRoboPost(new Uri("http://localhost:15300/robo/InclinacaoCabecaRepouso"));
 
                 if (movimento != null)
                 {

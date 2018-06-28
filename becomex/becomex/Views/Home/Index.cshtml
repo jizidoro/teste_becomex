@@ -7,22 +7,16 @@
     <script>
         var GetAtualWebApiUrl = '@Url.Action("GetAtualWebApi")';
         var ResetaRoboWebApiUrl = '@Url.Action("ResetaRoboWebApi")';
-        var ContrairBracoDireitoRepousoUrl = '@Url.Action("ContrairBracoDireitoRepouso")';
         var ContrairBracoDireitoUrl = '@Url.Action("ContrairBracoDireito")';
         var DescontrairBracoDireitoUrl = '@Url.Action("DescontrairBracoDireito")';
-        var RotacaoBracoDireitoRepousoUrl = '@Url.Action("RotacaoBracoDireitoRepouso")';
         var RotacaoBracoDireitoUrl = '@Url.Action("RotacaoBracoDireito")';
         var RotacaoBracoDireitoAtniUrl = '@Url.Action("RotacaoBracoDireitoAtni")';
-        var ContrairBracoEsquerdoRepousoUrl = '@Url.Action("ContrairBracoEsquerdoRepouso")';
         var ContrairBracoEsquerdoUrl = '@Url.Action("ContrairBracoEsquerdo")';
         var DescontrairBracoEsquerdoUrl = '@Url.Action("DescontrairBracoEsquerdo")';
-        var RotacaoBracoEsquerdoRepousoUrl = '@Url.Action("RotacaoBracoEsquerdoRepouso")';
         var RotacaoBracoEsquerdoUrl = '@Url.Action("RotacaoBracoEsquerdo")';
         var RotacaoBracoEsquerdoAtniUrl = '@Url.Action("RotacaoBracoEsquerdoAtni")';
-        var RotacaoCabecaRepousoUrl = '@Url.Action("RotacaoCabecaRepouso")';
         var RotacaoCabecaUrl = '@Url.Action("RotacaoCabeca")';
         var RotacaoCabecaAtniUrl = '@Url.Action("RotacaoCabecaAtni")';
-        var InclinacaoCabecaRepousoUrl = '@Url.Action("InclinacaoCabecaRepouso")';
         var InclinacaoCabecaCimaUrl = '@Url.Action("InclinacaoCabecaCima")';
         var InclinacaoCabecaBaixoUrl = '@Url.Action("InclinacaoCabecaBaixo")';
     </script>
@@ -92,9 +86,6 @@
 <label>Contrair Braco Direito</label>
 <div class="row">
     <div class="col-md-4">
-        <p><a id="ContrairBracoDireitoRepouso" class="btn btn-default">Contrair Braco Direito Repouso &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
         <p><a id="ContrairBracoDireito" class="btn btn-default">Contrair Braco Direito &raquo;</a></p>
     </div>
     <div class="col-md-4">
@@ -104,9 +95,6 @@
 
 <label>Rotacao Braco Direito</label>
 <div class="row">
-    <div class="col-md-4">
-        <p><a id="RotacaoBracoDireitoRepouso" class="btn btn-default">Rotacao Braco Direito Repouso &raquo;</a></p>
-    </div>
     <div class="col-md-4">
         <p><a id="RotacaoBracoDireito" class="btn btn-default">Rotacao Braco Direito &raquo;</a></p>
     </div>
@@ -118,9 +106,6 @@
 <label>Contrair Braco Esquerdo</label>
 <div class="row">
     <div class="col-md-4">
-        <p><a id="ContrairBracoEsquerdoRepouso" class="btn btn-default">Contrair Braco Esquerdo Repouso &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
         <p><a id="ContrairBracoEsquerdo" class="btn btn-default">Contrair Braco Esquerdo &raquo;</a></p>
     </div>
     <div class="col-md-4">
@@ -130,9 +115,6 @@
 
 <label>Rotacao Braco Esquerdo</label>
 <div class="row">
-    <div class="col-md-4">
-        <p><a id="RotacaoBracoEsquerdoRepouso" class="btn btn-default">Rotacao Braco Esquerdo Repouso &raquo;</a></p>
-    </div>
     <div class="col-md-4">
         <p><a id="RotacaoBracoEsquerdo" class="btn btn-default">Rotacao Braco Esquerdo &raquo;</a></p>
     </div>
@@ -144,9 +126,6 @@
 <label>Rotacao Cabeca</label>
 <div class="row">
     <div class="col-md-4">
-        <p><a id="RotacaoCabecaRepouso" class="btn btn-default">Rotacao Cabeca Repouso &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
         <p><a id="RotacaoCabeca" class="btn btn-default">Rotacao Cabeca &raquo;</a></p>
     </div>
     <div class="col-md-4">
@@ -156,9 +135,6 @@
 
 <label>Inclinacao Cabeca</label>
 <div class="row">
-    <div class="col-md-4">
-        <p><a id="InclinacaoCabecaRepouso" class="btn btn-default">Inclinacao Cabeca Repouso &raquo;</a></p>
-    </div>
     <div class="col-md-4">
         <p><a id="InclinacaoCabecaCima" class="btn btn-default">Inclinacao Cabeca Cima &raquo;</a></p>
     </div>
