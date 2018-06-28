@@ -1,15 +1,33 @@
 ﻿$(document).ready(function () {
 
-    $('#Iniciar').on('click', function () {
 
-        $.post(TestaWebApiUrl, {}, function (data) {
+    $.post(GetAtualWebApiUrl, {}, function (data) {
+        if (data.success) {
+            $('#situacaoAtualBracoDireitoContracao').html(data.robo.bracoDireito.Cotovelo);
+            $('#situacaoAtualBracoDireitoRotacao').html(data.robo.bracoDireito.Pulso);
+            $('#situacaoAtualBracoEsquerdoContracao').html(data.robo.bracoEsquerdo.Cotovelo);
+            $('#situacaoAtualBracoEsquerdoRotacao').html(data.robo.bracoEsquerdo.Pulso);
+            $('#situacaoAtualCabecaRotacao').html(data.robo.cabeca.Rotacao);
+            $('#situacaoAtualCabecaInclinacao').html(data.robo.cabeca.Inclinacao);
+            $('#ConexaoWebApi').html("Sim");
+            console.log("oi");
+        }
+        else {
+            $('#ConexaoWebApi').html("Nao");
+            console.log("errado");
+        }
+    });
+
+    $('#Reseta').on('click', function () {
+
+        $.post(ResetaRoboWebApiUrl, {}, function (data) {
             if (data.success) {
-                $('#situacaoAtualBracoDireitoContracao').html("0");
-                $('#situacaoAtualBracoDireitoRotacao').html("0");
-                $('#situacaoAtualBracoEsquerdoContracao').html("0");
-                $('#situacaoAtualBracoEsquerdoRotacao').html("0");
-                $('#situacaoAtualCabecaRotacao').html("0");
-                $('#situacaoAtualCabecaInclinacao').html("0");
+                $('#situacaoAtualBracoDireitoContracao').html(data.robo.bracoDireito.Cotovelo);
+                $('#situacaoAtualBracoDireitoRotacao').html(data.robo.bracoDireito.Pulso);
+                $('#situacaoAtualBracoEsquerdoContracao').html(data.robo.bracoEsquerdo.Cotovelo);
+                $('#situacaoAtualBracoEsquerdoRotacao').html(data.robo.bracoEsquerdo.Pulso);
+                $('#situacaoAtualCabecaRotacao').html(data.robo.cabeca.Rotacao);
+                $('#situacaoAtualCabecaInclinacao').html(data.robo.cabeca.Inclinacao);
                 $('#ConexaoWebApi').html("Sim");
                 console.log("oi");
             }
@@ -27,7 +45,7 @@
 
         $.post(ContrairBracoDireitoRepousoUrl, { }, function (data) {
             if (data.success) {
-                $('#situacaoAtualBracoDireitoContracao').html("0");
+                $('#situacaoAtualBracoDireitoContracao').html(data.robo.bracoDireito.Cotovelo);
                 console.log("oi");
             }
             else {
@@ -43,7 +61,7 @@
 
         $.post(ContrairBracoDireitoUrl, { }, function (data) {
             if (data.success) {
-                $('#situacaoAtualBracoDireitoContracao').html("1");
+                $('#situacaoAtualBracoDireitoContracao').html(data.robo.bracoDireito.Cotovelo);
                 console.log("oi");
             }
             else {
@@ -59,7 +77,7 @@
 
         $.post(DescontrairBracoDireitoUrl, { }, function (data) {
             if (data.success) {
-                $('#situacaoAtualBracoDireitoContracao').html("2");
+                $('#situacaoAtualBracoDireitoContracao').html(data.robo.bracoDireito.Cotovelo);
                 console.log("oi");
             }
             else {
@@ -75,7 +93,7 @@
 
         $.post(RotacaoBracoDireitoRepousoUrl, { }, function (data) {
             if (data.success) {
-                $('#situacaoAtualBracoDireitoRotacao').html("0");
+                $('#situacaoAtualBracoDireitoRotacao').html(data.robo.bracoDireito.Pulso);
                 console.log("oi");
             }
             else {
@@ -91,7 +109,7 @@
 
         $.post(RotacaoBracoDireitoUrl, { }, function (data) {
             if (data.success) {
-                $('#situacaoAtualBracoDireitoRotacao').html("1");
+                $('#situacaoAtualBracoDireitoRotacao').html(data.robo.bracoDireito.Pulso);
                 console.log("oi");
             }
             else {
@@ -107,7 +125,7 @@
 
         $.post(RotacaoBracoDireitoAtniUrl, { }, function (data) {
             if (data.success) {
-                $('#situacaoAtualBracoDireitoRotacao').html("2");
+                $('#situacaoAtualBracoDireitoRotacao').html(data.robo.bracoDireito.Pulso);
                 console.log("oi");
             }
             else {
@@ -123,7 +141,7 @@
 
         $.post(ContrairBracoEsquerdoRepousoUrl, { }, function (data) {
             if (data.success) {
-                $('#situacaoAtualBracoEsquerdoContracao').html("0");
+                $('#situacaoAtualBracoEsquerdoContracao').html(data.robo.bracoEsquerdo.Cotovelo);
                 console.log("oi");
             }
             else {
@@ -141,7 +159,7 @@
         
         $.post(ContrairBracoEsquerdoUrl, { }, function (data) {
             if (data.success) {
-                $('#situacaoAtualBracoEsquerdoContracao').html("1");
+                $('#situacaoAtualBracoEsquerdoContracao').html(data.robo.bracoDireito.Cotovelo);
                 console.log("oi");
             }
             else {
@@ -157,7 +175,7 @@
 
         $.post(DescontrairBracoEsquerdoUrl, { }, function (data) {
             if (data.success) {
-                $('#situacaoAtualBracoEsquerdoContracao').html("2");
+                $('#situacaoAtualBracoEsquerdoContracao').html(data.robo.bracoEsquerdo.Cotovelo);
                 console.log("oi");
             }
             else {
@@ -173,7 +191,7 @@
 
         $.post(RotacaoBracoEsquerdoRepousoUrl, { }, function (data) {
             if (data.success) {
-                $('#situacaoAtualBracoEsquerdoRotacao').html("0");
+                $('#situacaoAtualBracoEsquerdoRotacao').html(data.robo.bracoEsquerdo.Pulso);
                 console.log("oi");
             }
             else {
@@ -189,7 +207,7 @@
 
         $.post(RotacaoBracoEsquerdoUrl, { }, function (data) {
             if (data.success) {
-                $('#situacaoAtualBracoEsquerdoRotacao').html("1");
+                $('#situacaoAtualBracoEsquerdoRotacao').html(data.robo.bracoDireito.Pulso);
                 console.log("oi");
             }
             else {
@@ -205,7 +223,7 @@
 
         $.post(RotacaoBracoEsquerdoAtniUrl, { }, function (data) {
             if (data.success) {
-                $('#situacaoAtualBracoEsquerdoRotacao').html("2");
+                $('#situacaoAtualBracoEsquerdoRotacao').html(data.robo.bracoEsquerdo.Pulso);
                 console.log("oi");
             }
             else {
@@ -221,7 +239,7 @@
 
         $.post(RotacaoCabecaRepousoUrl, { }, function (data) {
             if (data.success) {
-                $('#situacaoAtualCabecaRotacao').html("0");
+                $('#situacaoAtualCabecaRotacao').html(data.robo.cabeca.Rotacao);
                 console.log("oi");
             }
             else {
@@ -237,7 +255,7 @@
 
         $.post(RotacaoCabecaUrl, { }, function (data) {
             if (data.success) {
-                $('#situacaoAtualCabecaRotacao').html("1");
+                $('#situacaoAtualCabecaRotacao').html(data.robo.cabeca.Rotacao);
                 console.log("oi");
             }
             else {
@@ -253,7 +271,7 @@
 
         $.post(RotacaoCabecaAtniUrl, { }, function (data) {
             if (data.success) {
-                $('#situacaoAtualCabecaRotacao').html("2");
+                $('#situacaoAtualCabecaRotacao').html(data.robo.cabeca.Rotacao);
                 console.log("oi");
             }
             else {
@@ -269,7 +287,7 @@
 
         $.post(InclinacaoCabecaRepousoUrl, { }, function (data) {
             if (data.success) {
-                $('#situacaoAtualCabecaInclinacao').html("0");
+                $('#situacaoAtualCabecaInclinacao').html(data.robo.cabeca.Inclinacao);
                 console.log("oi");
             }
             else {
@@ -285,7 +303,7 @@
 
         $.post(InclinacaoCabecaCimaUrl, { }, function (data) {
             if (data.success) {
-                $('#situacaoAtualCabecaInclinacao').html("1");
+                $('#situacaoAtualCabecaInclinacao').html(data.robo.cabeca.Inclinacao);
                 console.log("oi");
             }
             else {
@@ -301,7 +319,7 @@
 
         $.post(InclinacaoCabecaBaixoUrl, { }, function (data) {
             if (data.success) {
-                $('#situacaoAtualCabecaInclinacao').html("2");
+                $('#situacaoAtualCabecaInclinacao').html(data.robo.cabeca.Inclinacao);
                 console.log("oi");
             }
             else {

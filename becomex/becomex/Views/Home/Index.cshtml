@@ -5,8 +5,8 @@
 
 @section scripts {
     <script>
-        var TestaWebApiUrl = '@Url.Action("TestaWebApi")';
-
+        var GetAtualWebApiUrl = '@Url.Action("GetAtualWebApi")';
+        var ResetaRoboWebApiUrl = '@Url.Action("ResetaRoboWebApi")';
         var ContrairBracoDireitoRepousoUrl = '@Url.Action("ContrairBracoDireitoRepouso")';
         var ContrairBracoDireitoUrl = '@Url.Action("ContrairBracoDireito")';
         var DescontrairBracoDireitoUrl = '@Url.Action("DescontrairBracoDireito")';
@@ -32,7 +32,7 @@
 
 <div class="row">
     <div class="col-md-4">
-        <p><a id="Iniciar" class="btn btn-default">Iniciar/Reiniciar &raquo;</a></p>
+        <p><a id="Reseta" class="btn btn-default">Reiniciar &raquo;</a></p>
     </div>
     <div class="col-md-2">
         <label>Conexao WebApi:</label>

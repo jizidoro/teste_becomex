@@ -111,6 +111,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Robo.cs" />
     <Compile Include="Models\BracoDireito.cs" />
     <Compile Include="Models\BracoEsquerdo.cs" />
     <Compile Include="Models\Cabeca.cs" />
@@ -131,12 +132,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="_bin_deployableAssemblies\amd64\Microsoft.VC90.CRT\" />
     <Folder Include="_bin_deployableAssemblies\x86\Microsoft.VC90.CRT\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\becomex\becomex.csproj">
-      <Project>{1a5a2aa2-1125-48de-9e44-5f97d7079d86}</Project>
-      <Name>becomex</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

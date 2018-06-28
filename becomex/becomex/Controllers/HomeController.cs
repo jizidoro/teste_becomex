@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using roboapi.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -36,7 +37,7 @@ namespace becomex.Controllers
 
                     var Result = JsonConvert.DeserializeObject<List<string>>(dados);
                     
-                    return Json(new { success = true, text = "texto"}, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = true, robo = movimento}, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
@@ -51,7 +52,7 @@ namespace becomex.Controllers
         */
 
 
-        public bool ComunicarRobo(Uri uri)
+        public Robo ComunicarRoboGet(Uri uri)
         {
             try
             {
@@ -59,6 +60,7 @@ namespace becomex.Controllers
 
                 var myHttpWebRequest = myWebRequest;
                 myHttpWebRequest.PreAuthenticate = true;
+                myHttpWebRequest.Method = "GET";
                 myHttpWebRequest.Accept = "application/json";
 
                 var myWebResponse = myWebRequest.GetResponse();
@@ -71,66 +73,87 @@ namespace becomex.Controllers
                 myWebResponse.Close();
 
                 //var Result = JsonConvert.DeserializeObject<List<string>>(json);
-                var Result = JsonConvert.DeserializeObject<string>(json);
+                var Result = JsonConvert.DeserializeObject<Robo>(json);
 
-                if (string.IsNullOrEmpty(Result))
+                if (Result == null)
                 {
-                    return false;
+                    return null;
                 }
 
-                return true;
+                return Result;
             }
             catch (Exception ex)
             {
-                return false;
+                return null;
             }
         }
 
-        public bool ComunicarRoboPost(Uri uri)
+        public Robo ComunicarRoboPost(Uri uri)
         {
             try
             {
-                WebResponse myWebResponse = null;
                 HttpWebRequest myWebRequest = (HttpWebRequest)HttpWebRequest.Create(uri);
-                myWebRequest.Method = "POST";
-                myWebRequest.ContentType = "application/x-www-form-urlencoded";
 
-                Stream postStream = myWebRequest.GetRequestStream();
+                var myHttpWebRequest = myWebRequest;
+                myHttpWebRequest.PreAuthenticate = true;
+                myHttpWebRequest.Method = "POST";
+                myHttpWebRequest.ContentLength = 0;
+                myHttpWebRequest.Accept = "application/json";
 
-                //string requestBody = string.Format("grant_type=password&username={0}&password={1}", usuario, senha);
-                string requestBody = string.Format("grant_type=password");
-                byte[] byteArray = Encoding.UTF8.GetBytes(requestBody);
-
-                postStream.Write(byteArray, 0, byteArray.Length);
-                postStream.Close();
-                myWebRequest.Timeout = 13000;
-                myWebResponse = myWebRequest.GetResponse();
+                var myWebResponse = myWebRequest.GetResponse();
                 var responseStream = myWebResponse.GetResponseStream();
-                
+
                 var myStreamReader = new StreamReader(responseStream, Encoding.Default);
                 var json = myStreamReader.ReadToEnd();
 
                 responseStream.Close();
                 myWebResponse.Close();
 
-                return true;
+                //var Result = JsonConvert.DeserializeObject<List<string>>(json);
+                var Result = JsonConvert.DeserializeObject<Robo>(json);
+
+                if (Result == null)
+                {
+                    return null;
+                }
+
+                return Result;
             }
             catch (Exception ex)
             {
-                return false;
+                return null;
             }
         }
 
 
-        public JsonResult TestaWebApi()
+        public JsonResult GetAtualWebApi()
         {
             try
             {
-                //var movimento = ComunicarRobo(new Uri("http://localhost:15300/robo/get"));
-                var movimento = ComunicarRoboPost(new Uri("http://localhost:15300/robo/PostCabecaTeste"));
-                if (movimento)
+                var movimento = ComunicarRoboGet(new Uri("http://localhost:15300/robo/get"));
+                if (movimento != null)
                 {
-                    return Json(new { success = true, text = "texto" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = true, robo = movimento }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public JsonResult ResetaRoboWebApi()
+        {
+            try
+            {
+                var movimento = ComunicarRoboPost(new Uri("http://localhost:15300/robo/reseta"));
+                if (movimento != null)
+                {
+                    return Json(new { success = true, robo = movimento }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
@@ -145,10 +168,10 @@ namespace becomex.Controllers
 
         public JsonResult ContrairBracoDireitoRepouso(){
             try{
-                var movimento = ComunicarRobo(new Uri("http://localhost:15300/robo/ContrairBracoDireitoRepouso"));
+                var movimento = ComunicarRoboPost(new Uri("http://localhost:15300/robo/ContrairBracoDireitoRepouso"));
 
-                if (movimento){
-                    return Json(new { success = true, text = "texto" }, JsonRequestBehavior.AllowGet);
+                if (movimento != null){
+                    return Json(new { success = true, robo = movimento }, JsonRequestBehavior.AllowGet);
                 }
                 else{
                     return Json(new { success = false }, JsonRequestBehavior.AllowGet);
@@ -163,11 +186,11 @@ namespace becomex.Controllers
         {
             try
             {
-                var movimento = ComunicarRobo(new Uri("http://localhost:15300/robo/ContrairBracoDireito"));
+                var movimento = ComunicarRoboPost(new Uri("http://localhost:15300/robo/ContrairBracoDireito"));
 
-                if (movimento)
+                if (movimento != null)
                 {
-                    return Json(new { success = true, text = "texto" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = true, robo = movimento }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
@@ -184,11 +207,11 @@ namespace becomex.Controllers
         {
             try
             {
-                var movimento = ComunicarRobo(new Uri("http://localhost:15300/robo/DescontrairBracoDireito"));
+                var movimento = ComunicarRoboPost(new Uri("http://localhost:15300/robo/DescontrairBracoDireito"));
 
-                if (movimento)
+                if (movimento != null)
                 {
-                    return Json(new { success = true, text = "texto" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = true, robo = movimento }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
@@ -208,11 +231,11 @@ namespace becomex.Controllers
         {
             try
             {
-                var movimento = ComunicarRobo(new Uri("http://localhost:15300/robo/RotacaoBracoDireitoRepouso"));
+                var movimento = ComunicarRoboPost(new Uri("http://localhost:15300/robo/RotacaoBracoDireitoRepouso"));
 
-                if (movimento)
+                if (movimento != null)
                 {
-                    return Json(new { success = true, text = "texto" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = true, robo = movimento }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
@@ -229,11 +252,11 @@ namespace becomex.Controllers
         {
             try
             {
-                var movimento = ComunicarRobo(new Uri("http://localhost:15300/robo/RotacaoBracoDireito"));
+                var movimento = ComunicarRoboPost(new Uri("http://localhost:15300/robo/RotacaoBracoDireito"));
 
-                if (movimento)
+                if (movimento != null)
                 {
-                    return Json(new { success = true, text = "texto" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = true, robo = movimento }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
@@ -250,11 +273,11 @@ namespace becomex.Controllers
         {
             try
             {
-                var movimento = ComunicarRobo(new Uri("http://localhost:15300/robo/RotacaoBracoDireitoAtni"));
+                var movimento = ComunicarRoboPost(new Uri("http://localhost:15300/robo/RotacaoBracoDireitoAtni"));
 
-                if (movimento)
+                if (movimento != null)
                 {
-                    return Json(new { success = true, text = "texto" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = true, robo = movimento }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
@@ -271,11 +294,11 @@ namespace becomex.Controllers
         {
             try
             {
-                var movimento = ComunicarRobo(new Uri("http://localhost:15300/robo/ContrairBracoEsquerdoRepouso"));
+                var movimento = ComunicarRoboPost(new Uri("http://localhost:15300/robo/ContrairBracoEsquerdoRepouso"));
 
-                if (movimento)
+                if (movimento != null)
                 {
-                    return Json(new { success = true, text = "texto" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = true, robo = movimento }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
@@ -292,11 +315,11 @@ namespace becomex.Controllers
         {
             try
             {
-                var movimento = ComunicarRobo(new Uri("http://localhost:15300/robo/ContrairBracoEsquerdo"));
+                var movimento = ComunicarRoboPost(new Uri("http://localhost:15300/robo/ContrairBracoEsquerdo"));
 
-                if (movimento)
+                if (movimento != null)
                 {
-                    return Json(new { success = true, text = "texto" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = true, robo = movimento }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
@@ -313,11 +336,11 @@ namespace becomex.Controllers
         {
             try
             {
-                var movimento = ComunicarRobo(new Uri("http://localhost:15300/robo/DescontrairBracoEsquerdo"));
+                var movimento = ComunicarRoboPost(new Uri("http://localhost:15300/robo/DescontrairBracoEsquerdo"));
 
-                if (movimento)
+                if (movimento != null)
                 {
-                    return Json(new { success = true, text = "texto" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = true, robo = movimento }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
@@ -334,11 +357,11 @@ namespace becomex.Controllers
         {
             try
             {
-                var movimento = ComunicarRobo(new Uri("http://localhost:15300/robo/RotacaoBracoEsquerdoRepouso"));
+                var movimento = ComunicarRoboPost(new Uri("http://localhost:15300/robo/RotacaoBracoEsquerdoRepouso"));
 
-                if (movimento)
+                if (movimento != null)
                 {
-                    return Json(new { success = true, text = "texto" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = true, robo = movimento }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
@@ -355,11 +378,11 @@ namespace becomex.Controllers
         {
             try
             {
-                var movimento = ComunicarRobo(new Uri("http://localhost:15300/robo/RotacaoBracoEsquerdo"));
+                var movimento = ComunicarRoboPost(new Uri("http://localhost:15300/robo/RotacaoBracoEsquerdo"));
 
-                if (movimento)
+                if (movimento != null)
                 {
-                    return Json(new { success = true, text = "texto" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = true, robo = movimento }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
@@ -376,11 +399,11 @@ namespace becomex.Controllers
         {
             try
             {
-                var movimento = ComunicarRobo(new Uri("http://localhost:15300/robo/RotacaoBracoEsquerdoAtni"));
+                var movimento = ComunicarRoboPost(new Uri("http://localhost:15300/robo/RotacaoBracoEsquerdoAtni"));
 
-                if (movimento)
+                if (movimento != null)
                 {
-                    return Json(new { success = true, text = "texto" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = true, robo = movimento }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
@@ -397,11 +420,11 @@ namespace becomex.Controllers
         {
             try
             {
-                var movimento = ComunicarRobo(new Uri("http://localhost:15300/robo/RotacaoCabecaRepouso"));
+                var movimento = ComunicarRoboPost(new Uri("http://localhost:15300/robo/RotacaoCabecaRepouso"));
 
-                if (movimento)
+                if (movimento != null)
                 {
-                    return Json(new { success = true, text = "texto" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = true, robo = movimento }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
@@ -418,11 +441,11 @@ namespace becomex.Controllers
         {
             try
             {
-                var movimento = ComunicarRobo(new Uri("http://localhost:15300/robo/RotacaoCabeca"));
+                var movimento = ComunicarRoboPost(new Uri("http://localhost:15300/robo/RotacaoCabeca"));
 
-                if (movimento)
+                if (movimento != null)
                 {
-                    return Json(new { success = true, text = "texto" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = true, robo = movimento }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
@@ -439,11 +462,11 @@ namespace becomex.Controllers
         {
             try
             {
-                var movimento = ComunicarRobo(new Uri("http://localhost:15300/robo/RotacaoCabecaAtni"));
+                var movimento = ComunicarRoboPost(new Uri("http://localhost:15300/robo/RotacaoCabecaAtni"));
 
-                if (movimento)
+                if (movimento != null)
                 {
-                    return Json(new { success = true, text = "texto" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = true, robo = movimento }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
@@ -460,11 +483,11 @@ namespace becomex.Controllers
         {
             try
             {
-                var movimento = ComunicarRobo(new Uri("http://localhost:15300/robo/InclinacaoCabecaRepouso"));
+                var movimento = ComunicarRoboPost(new Uri("http://localhost:15300/robo/InclinacaoCabecaRepouso"));
 
-                if (movimento)
+                if (movimento != null)
                 {
-                    return Json(new { success = true, text = "texto" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = true, robo = movimento }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
@@ -481,11 +504,11 @@ namespace becomex.Controllers
         {
             try
             {
-                var movimento = ComunicarRobo(new Uri("http://localhost:15300/robo/InclinacaoCabecaCima"));
+                var movimento = ComunicarRoboPost(new Uri("http://localhost:15300/robo/InclinacaoCabecaCima"));
 
-                if (movimento)
+                if (movimento != null)
                 {
-                    return Json(new { success = true, text = "texto" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = true, robo = movimento }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
@@ -502,11 +525,11 @@ namespace becomex.Controllers
         {
             try
             {
-                var movimento = ComunicarRobo(new Uri("http://localhost:15300/robo/InclinacaoCabecaBaixo"));
+                var movimento = ComunicarRoboPost(new Uri("http://localhost:15300/robo/InclinacaoCabecaBaixo"));
 
-                if (movimento)
+                if (movimento != null)
                 {
-                    return Json(new { success = true, text = "texto" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = true, robo = movimento }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
