@@ -1,4 +1,5 @@
-﻿using System;
+﻿using roboapi.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -10,13 +11,29 @@ namespace roboapi.Controllers
     public class RoboController : ApiController
     {
         // GET: api/Robo
+
+        Cabeca IniCabeca = new Cabeca();
+        BracoDireito IniBracoDireito = new BracoDireito();
+        BracoEsquerdo IniBracoEsquerdo = new BracoEsquerdo();
+
+
         [Route("robo/get")]
         [HttpGet]
         public IHttpActionResult Get()
         {
             try
             {
-                return Ok(new string[] { "value1", "value2" });
+                IniCabeca.Inclinacao = 0;
+                IniCabeca.Rotacao = 0;
+
+                IniBracoDireito.Cotovelo = 1;
+                IniBracoDireito.Pulso = 1;
+
+                IniBracoEsquerdo.Cotovelo = 1;
+                IniBracoEsquerdo.Pulso = 1;
+
+
+                return Ok("ta vivo");
             }
             catch
             {
@@ -48,6 +65,7 @@ namespace roboapi.Controllers
         {
             try
             {
+                IniBracoDireito.Cotovelo = 0;
                 return Ok("Contrair Repouso");
             }
             catch
@@ -65,8 +83,8 @@ namespace roboapi.Controllers
         {
             try
             {
-                return Ok("contraiu esquerdo");
-                
+                IniBracoDireito.Cotovelo++;
+                return Ok("contraiu esquerdo " + IniBracoDireito.Cotovelo.ToString());
             }
             catch
             {
@@ -81,8 +99,8 @@ namespace roboapi.Controllers
         {
             try
             {
-                return Ok("descontraiu esquerdo");
-                
+                IniBracoDireito.Cotovelo--;
+                return Ok("descontraiu esquerdo " + IniBracoDireito.Cotovelo.ToString());
             }
             catch
             {

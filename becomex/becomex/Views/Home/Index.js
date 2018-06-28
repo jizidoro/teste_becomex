@@ -1,6 +1,25 @@
 ﻿$(document).ready(function () {
 
-    
+    $('#Iniciar').on('click', function () {
+
+        $.post(TestaWebApiUrl, {}, function (data) {
+            if (data.success) {
+                $('#situacaoAtualBracoDireitoContracao').html("0");
+                $('#situacaoAtualBracoDireitoRotacao').html("0");
+                $('#situacaoAtualBracoEsquerdoContracao').html("0");
+                $('#situacaoAtualBracoEsquerdoRotacao').html("0");
+                $('#situacaoAtualCabecaRotacao').html("0");
+                $('#situacaoAtualCabecaInclinacao').html("0");
+                $('#ConexaoWebApi').html("Sim");
+                console.log("oi");
+            }
+            else {
+                $('#ConexaoWebApi').html("Nao");
+                console.log("errado");
+            }
+        });
+
+    });
 
     $('#ContrairBracoDireitoRepouso').on('click', function () {
 

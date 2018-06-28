@@ -86,6 +86,26 @@ namespace becomex.Controllers
             }
         }
 
+        public JsonResult TestaWebApi()
+        {
+            try
+            {
+                var movimento = ComunicarRobo(new Uri("http://localhost:15300/robo/get"));
+
+                if (movimento)
+                {
+                    return Json(new { success = true, text = "texto" }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
 
         public JsonResult ContrairBracoDireitoRepouso(){
             try{
@@ -144,6 +164,9 @@ namespace becomex.Controllers
                 return Json(new { success = false, message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+
+
+
 
         public JsonResult RotacaoBracoDireitoRepouso()
         {
