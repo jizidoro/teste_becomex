@@ -17,103 +17,162 @@ namespace roboapi.Controllers
     {
         private context db = new context();
 
-        // GET: api/BracoEsquerdoes
-        public IQueryable<BracoEsquerdo> GetBracoEsquerdoes()
+
+        /////////////////////////////////////////////////////////////////////
+        //                                                                 //
+        //                                                                 //
+        //                           braco esquerdo                        //
+        //                                                                 //
+        //                                                                 //
+        //                                                                 //
+        /////////////////////////////////////////////////////////////////////
+
+
+
+        // 0 = Em Repouso
+        // 1 = Levemente Contraído
+        // 2 = Contraído
+        // 3 = Fortemente Contraído
+
+        /////////////////////////////////////////////////////////////////////
+        //                                                                 //
+        //                                                                 //
+        //                        cotovelo esquerdo                        //
+        //                                                                 //
+        //                                                                 //
+        //                                                                 //
+        /////////////////////////////////////////////////////////////////////
+
+        [Route("robo/ContrairBracoEsquerdo")]
+        [HttpPost]
+        public async Task<IHttpActionResult> ContrairBracoEsquerdo()
         {
-            return db.BracoEsquerdoes;
-        }
-
-        // GET: api/BracoEsquerdoes/5
-        [ResponseType(typeof(BracoEsquerdo))]
-        public async Task<IHttpActionResult> GetBracoEsquerdo(int id)
-        {
-            BracoEsquerdo bracoEsquerdo = await db.BracoEsquerdoes.FindAsync(id);
-            if (bracoEsquerdo == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(bracoEsquerdo);
-        }
-
-        // PUT: api/BracoEsquerdoes/5
-        [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutBracoEsquerdo(int id, BracoEsquerdo bracoEsquerdo)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != bracoEsquerdo.Id)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(bracoEsquerdo).State = EntityState.Modified;
-
             try
             {
-                await db.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!BracoEsquerdoExists(id))
+                var bEsquerdo = db.BracoEsquerdoes.ToList().LastOrDefault();
+
+                if (bEsquerdo.Cotovelo <= 2)
                 {
-                    return NotFound();
+                    BracoEsquerdo item = new BracoEsquerdo();
+                    item.Cotovelo = bEsquerdo.Cotovelo + 1;
+                    item.Pulso = bEsquerdo.Pulso;
+                    db.BracoEsquerdoes.Add(item);
+                    await db.SaveChangesAsync();
+                    return Ok(GetSituacaoAtual());
                 }
-                else
+                return BadRequest();
+            }
+            catch (WebException we)
+            {
+                return BadRequest(we.Message);
+            }
+        }
+
+
+        [Route("robo/DescontrairBracoEsquerdo")]
+        [HttpPost]
+        public async Task<IHttpActionResult> DescontrairBracoEsquerdo()
+        {
+            try
+            {
+                var bEsquerdo = db.BracoEsquerdoes.ToList().LastOrDefault();
+                if (bEsquerdo.Cotovelo >= 1)
                 {
-                    throw;
+                    BracoEsquerdo item = new BracoEsquerdo();
+                    item.Cotovelo = bEsquerdo.Cotovelo - 1;
+                    item.Pulso = bEsquerdo.Pulso;
+                    db.BracoEsquerdoes.Add(item);
+                    await db.SaveChangesAsync();
+                    return Ok(GetSituacaoAtual());
                 }
+                return BadRequest();
             }
-
-            return StatusCode(HttpStatusCode.NoContent);
-        }
-
-        // POST: api/BracoEsquerdoes
-        [ResponseType(typeof(BracoEsquerdo))]
-        public async Task<IHttpActionResult> PostBracoEsquerdo(BracoEsquerdo bracoEsquerdo)
-        {
-            if (!ModelState.IsValid)
+            catch (WebException we)
             {
-                return BadRequest(ModelState);
+                return BadRequest(we.Message);
             }
-
-            db.BracoEsquerdoes.Add(bracoEsquerdo);
-            await db.SaveChangesAsync();
-
-            return CreatedAtRoute("DefaultApi", new { id = bracoEsquerdo.Id }, bracoEsquerdo);
         }
 
-        // DELETE: api/BracoEsquerdoes/5
-        [ResponseType(typeof(BracoEsquerdo))]
-        public async Task<IHttpActionResult> DeleteBracoEsquerdo(int id)
+
+
+        //Rotação para -90º
+        //Rotação para -45º
+        //Em Repouso
+        //Rotação para 45º
+        //Rotação para 90º
+        //Rotação para 135º
+        //Rotação para 180º
+
+        /////////////////////////////////////////////////////////////////////
+        //                                                                 //
+        //                                                                 //
+        //                        pulso esquerdo                           //
+        //                                                                 //
+        //                                                                 //
+        //                                                                 //
+        /////////////////////////////////////////////////////////////////////
+
+
+        [Route("robo/RotacaoBracoEsquerdo")]
+        [HttpPost]
+        public async Task<IHttpActionResult> RotacaoBracoEsquerdo()
         {
-            BracoEsquerdo bracoEsquerdo = await db.BracoEsquerdoes.FindAsync(id);
-            if (bracoEsquerdo == null)
+            try
             {
-                return NotFound();
+                var bEsquerdo = db.BracoEsquerdoes.ToList().LastOrDefault();
+                if (bEsquerdo.Cotovelo == 3 && bEsquerdo.Pulso < 180)
+                {
+                    BracoEsquerdo item = new BracoEsquerdo();
+                    item.Cotovelo = bEsquerdo.Cotovelo;
+                    item.Pulso = bEsquerdo.Pulso + 45;
+                    db.BracoEsquerdoes.Add(item);
+                    await db.SaveChangesAsync();
+                    return Ok(GetSituacaoAtual());
+                }
+                return BadRequest();
             }
-
-            db.BracoEsquerdoes.Remove(bracoEsquerdo);
-            await db.SaveChangesAsync();
-
-            return Ok(bracoEsquerdo);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
+            catch (WebException we)
             {
-                db.Dispose();
+                return BadRequest(we.Message);
             }
-            base.Dispose(disposing);
         }
 
-        private bool BracoEsquerdoExists(int id)
+
+        [Route("robo/RotacaoBracoEsquerdoAtni")]
+        [HttpPost]
+        public async Task<IHttpActionResult> RotacaoBracoEsquerdoAtni()
         {
-            return db.BracoEsquerdoes.Count(e => e.Id == id) > 0;
+            try
+            {
+                var bEsquerdo = db.BracoEsquerdoes.ToList().LastOrDefault();
+                if (bEsquerdo.Cotovelo == 3 && bEsquerdo.Pulso > -90)
+                {
+                    BracoEsquerdo item = new BracoEsquerdo();
+                    item.Cotovelo = bEsquerdo.Cotovelo;
+                    item.Pulso = bEsquerdo.Pulso - 45;
+                    db.BracoEsquerdoes.Add(item);
+                    await db.SaveChangesAsync();
+                    return Ok(GetSituacaoAtual());
+                }
+                return BadRequest();
+            }
+            catch (WebException we)
+            {
+                return BadRequest(we.Message);
+            }
+        }
+
+        public Robo GetSituacaoAtual()
+        {
+            var cabeca = db.Cabecas.ToList().LastOrDefault();
+            var bDireito = db.BracoDireitoes.ToList().LastOrDefault();
+            var bEsquerdo = db.BracoEsquerdoes.ToList().LastOrDefault();
+
+            Robo robo = new Robo();
+            robo.cabeca = cabeca;
+            robo.bracoDireito = bDireito;
+            robo.bracoEsquerdo = bEsquerdo;
+            return robo;
         }
     }
 }

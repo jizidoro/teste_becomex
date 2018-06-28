@@ -17,119 +17,159 @@ namespace roboapi.Controllers
     {
         private context db = new context();
 
-        // GET: api/Cabecas
-        [Route("robo/GetAllCabecaTeste")]
-        [HttpGet]
-        public IQueryable<Cabeca> GetCabecas()
+
+        /////////////////////////////////////////////////////////////////////
+        //                                                                 //
+        //                                                                 //
+        //                           cabeca                                //
+        //                                                                 //
+        //                                                                 //
+        //                                                                 //
+        /////////////////////////////////////////////////////////////////////
+
+
+        //Rotação -90º
+        //Rotação -45º
+        //Em Repouso
+        //Rotação 45º
+        //Rotação 90º
+
+        /////////////////////////////////////////////////////////////////////
+        //                                                                 //
+        //                                                                 //
+        //                  rotacao cabeca                                 //
+        //                                                                 //
+        //                                                                 //
+        //                                                                 //
+        /////////////////////////////////////////////////////////////////////
+
+
+
+        [Route("robo/RotacaoCabeca")]
+        [HttpPost]
+        public async Task<IHttpActionResult> RotacaoCabeca()
         {
-            return db.Cabecas;
-        }
-
-        // GET: api/Cabecas/5
-        [ResponseType(typeof(Cabeca))]
-        public async Task<IHttpActionResult> GetCabeca(int id)
-        {
-            Cabeca cabeca = await db.Cabecas.FindAsync(id);
-            if (cabeca == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(cabeca);
-        }
-
-        // PUT: api/Cabecas/5
-        [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutCabeca(int id, Cabeca cabeca)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != cabeca.Id)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(cabeca).State = EntityState.Modified;
-
             try
             {
-                await db.SaveChangesAsync();
+                var cabeca = db.Cabecas.ToList().LastOrDefault();
+                if (cabeca.Inclinacao > -1 && cabeca.Rotacao < 90)
+                {
+                    Cabeca item = new Cabeca();
+                    item.Inclinacao = cabeca.Inclinacao;
+                    item.Rotacao = cabeca.Rotacao + 45;
+                    db.Cabecas.Add(item);
+                    await db.SaveChangesAsync();
+                    return Ok(GetSituacaoAtual());
+                }
+                return BadRequest();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (WebException we)
             {
-                if (!CabecaExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return BadRequest(we.Message);
             }
-
-            return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/dbCabeca
-        [Route("robo/PostCabecaTeste")]
+
+        [Route("robo/RotacaoCabecaAtni")]
         [HttpPost]
-        public async Task<IHttpActionResult> PostCabecaTeste()
+        public async Task<IHttpActionResult> RotacaoCabecaAtni()
         {
-            Cabeca teste = new Cabeca();
-            teste.Inclinacao = 0;
-            teste.Rotacao = 1;
-            db.Cabecas.Add(teste);
-            await db.SaveChangesAsync();
-
-            return CreatedAtRoute("DefaultApi", new { id = teste.Id }, teste);
-        }
-
-        // POST: api/Cabecas
-        [ResponseType(typeof(Cabeca))]
-        public async Task<IHttpActionResult> PostCabeca(Cabeca cabeca)
-        {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+                var cabeca = db.Cabecas.ToList().LastOrDefault();
+                if (cabeca.Inclinacao > -1 && cabeca.Rotacao > -90)
+                {
+                    Cabeca item = new Cabeca();
+                    item.Inclinacao = cabeca.Inclinacao;
+                    item.Rotacao = cabeca.Rotacao - 45;
+                    db.Cabecas.Add(item);
+                    await db.SaveChangesAsync();
+                    return Ok(GetSituacaoAtual());
+                }
+                return BadRequest();
             }
-
-            db.Cabecas.Add(cabeca);
-            await db.SaveChangesAsync();
-
-            return CreatedAtRoute("DefaultApi", new { id = cabeca.Id }, cabeca);
-        }
-
-        // DELETE: api/Cabecas/5
-        [ResponseType(typeof(Cabeca))]
-        public async Task<IHttpActionResult> DeleteCabeca(int id)
-        {
-            Cabeca cabeca = await db.Cabecas.FindAsync(id);
-            if (cabeca == null)
+            catch (WebException we)
             {
-                return NotFound();
+                return BadRequest(we.Message);
             }
-
-            db.Cabecas.Remove(cabeca);
-            await db.SaveChangesAsync();
-
-            return Ok(cabeca);
         }
 
-        protected override void Dispose(bool disposing)
+
+        //Para Cima
+        //Em Repouso
+        //Para Baixo
+
+        /////////////////////////////////////////////////////////////////////
+        //                                                                 //
+        //                                                                 //
+        //                   Inclinacao cabeca                             //
+        //                                                                 //
+        //                                                                 //
+        //                                                                 //
+        /////////////////////////////////////////////////////////////////////
+
+
+
+        [Route("robo/InclinacaoCabecaCima")]
+        [HttpPost]
+        public async Task<IHttpActionResult> InclinacaoCabecaCima()
         {
-            if (disposing)
+            try
             {
-                db.Dispose();
+                var cabeca = db.Cabecas.ToList().LastOrDefault();
+                if (cabeca.Inclinacao < 1)
+                {
+                    Cabeca item = new Cabeca();
+                    item.Inclinacao = cabeca.Inclinacao + 1;
+                    item.Rotacao = cabeca.Rotacao;
+                    db.Cabecas.Add(item);
+                    await db.SaveChangesAsync();
+                    return Ok(GetSituacaoAtual());
+                }
+                return BadRequest();
             }
-            base.Dispose(disposing);
+            catch (WebException we)
+            {
+                return BadRequest(we.Message);
+            }
         }
 
-        private bool CabecaExists(int id)
+
+        [Route("robo/InclinacaoCabecaBaixo")]
+        [HttpPost]
+        public async Task<IHttpActionResult> InclinacaoCabecaBaixo()
         {
-            return db.Cabecas.Count(e => e.Id == id) > 0;
+            try
+            {
+                var cabeca = db.Cabecas.ToList().LastOrDefault();
+                if (cabeca.Inclinacao > -1)
+                {
+                    Cabeca item = new Cabeca();
+                    item.Inclinacao = cabeca.Inclinacao - 1;
+                    item.Rotacao = cabeca.Rotacao;
+                    db.Cabecas.Add(item);
+                    await db.SaveChangesAsync();
+                    return Ok(GetSituacaoAtual());
+                }
+                return BadRequest();
+            }
+            catch (WebException we)
+            {
+                return BadRequest(we.Message);
+            }
+        }
+
+        public Robo GetSituacaoAtual()
+        {
+            var cabeca = db.Cabecas.ToList().LastOrDefault();
+            var bDireito = db.BracoDireitoes.ToList().LastOrDefault();
+            var bEsquerdo = db.BracoEsquerdoes.ToList().LastOrDefault();
+
+            Robo robo = new Robo();
+            robo.cabeca = cabeca;
+            robo.bracoDireito = bDireito;
+            robo.bracoEsquerdo = bEsquerdo;
+            return robo;
         }
     }
 }
