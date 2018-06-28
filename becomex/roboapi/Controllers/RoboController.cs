@@ -15,14 +15,45 @@ namespace roboapi.Controllers
 
         [Route("robo/get")]
         [HttpGet]
-        public IHttpActionResult Get()
+        public async Task<IHttpActionResult> Get()
         {
             try
             {
+                var allCabeca = db.Cabecas.ToList();
+                var allBEsquerdo = db.BracoDireitoes.ToList();
+                var allBDireito = db.BracoEsquerdoes.ToList();
+
+                if (allCabeca.Count == 0)
+                {
+                    Cabeca item = new Cabeca();
+                    item.Inclinacao = 0;
+                    item.Rotacao = 0;
+                    db.Cabecas.Add(item);
+                    await db.SaveChangesAsync();
+                }
+
+                if (allBEsquerdo.Count == 0)
+                {
+                    BracoEsquerdo item = new BracoEsquerdo();
+                    item.Cotovelo = 0;
+                    item.Pulso = 0;
+                    db.BracoEsquerdoes.Add(item);
+                    await db.SaveChangesAsync();
+                }
+
+                if (allBDireito.Count == 0)
+                {
+                    BracoDireito item = new BracoDireito();
+                    item.Cotovelo = 0;
+                    item.Pulso = 0;
+                    db.BracoDireitoes.Add(item);
+                    await db.SaveChangesAsync();
+                }
+
                 var cabeca = db.Cabecas.ToList().LastOrDefault();
                 var bDireito = db.BracoDireitoes.ToList().LastOrDefault();
                 var bEsquerdo = db.BracoEsquerdoes.ToList().LastOrDefault();
-                                
+
                 Robo robo = new Robo();
                 robo.cabeca = cabeca;
                 robo.bracoDireito = bDireito;
