@@ -12,10 +12,6 @@ namespace roboapi.Controllers
     {
         // GET: api/Robo
 
-        Cabeca IniCabeca = new Cabeca();
-        BracoDireito IniBracoDireito = new BracoDireito();
-        BracoEsquerdo IniBracoEsquerdo = new BracoEsquerdo();
-
 
         [Route("robo/get")]
         [HttpGet]
@@ -23,16 +19,6 @@ namespace roboapi.Controllers
         {
             try
             {
-                IniCabeca.Inclinacao = 0;
-                IniCabeca.Rotacao = 0;
-
-                IniBracoDireito.Cotovelo = 1;
-                IniBracoDireito.Pulso = 1;
-
-                IniBracoEsquerdo.Cotovelo = 1;
-                IniBracoEsquerdo.Pulso = 1;
-
-
                 return Ok("ta vivo");
             }
             catch
@@ -65,7 +51,6 @@ namespace roboapi.Controllers
         {
             try
             {
-                IniBracoDireito.Cotovelo = 0;
                 return Ok("Contrair Repouso");
             }
             catch
@@ -83,8 +68,7 @@ namespace roboapi.Controllers
         {
             try
             {
-                IniBracoDireito.Cotovelo++;
-                return Ok("contraiu esquerdo " + IniBracoDireito.Cotovelo.ToString());
+                return Ok("contraiu esquerdo ");
             }
             catch
             {
@@ -99,8 +83,7 @@ namespace roboapi.Controllers
         {
             try
             {
-                IniBracoDireito.Cotovelo--;
-                return Ok("descontraiu esquerdo " + IniBracoDireito.Cotovelo.ToString());
+                return Ok("descontraiu esquerdo ");
             }
             catch
             {

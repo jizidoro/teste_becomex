@@ -86,12 +86,48 @@ namespace becomex.Controllers
             }
         }
 
+        public bool ComunicarRoboPost(Uri uri)
+        {
+            try
+            {
+                WebResponse myWebResponse = null;
+                HttpWebRequest myWebRequest = (HttpWebRequest)HttpWebRequest.Create(uri);
+                myWebRequest.Method = "POST";
+                myWebRequest.ContentType = "application/x-www-form-urlencoded";
+
+                Stream postStream = myWebRequest.GetRequestStream();
+
+                //string requestBody = string.Format("grant_type=password&username={0}&password={1}", usuario, senha);
+                string requestBody = string.Format("grant_type=password");
+                byte[] byteArray = Encoding.UTF8.GetBytes(requestBody);
+
+                postStream.Write(byteArray, 0, byteArray.Length);
+                postStream.Close();
+                myWebRequest.Timeout = 13000;
+                myWebResponse = myWebRequest.GetResponse();
+                var responseStream = myWebResponse.GetResponseStream();
+                
+                var myStreamReader = new StreamReader(responseStream, Encoding.Default);
+                var json = myStreamReader.ReadToEnd();
+
+                responseStream.Close();
+                myWebResponse.Close();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+
         public JsonResult TestaWebApi()
         {
             try
             {
-                var movimento = ComunicarRobo(new Uri("http://localhost:15300/robo/get"));
-
+                //var movimento = ComunicarRobo(new Uri("http://localhost:15300/robo/get"));
+                var movimento = ComunicarRoboPost(new Uri("http://localhost:15300/robo/PostCabecaTeste"));
                 if (movimento)
                 {
                     return Json(new { success = true, text = "texto" }, JsonRequestBehavior.AllowGet);
